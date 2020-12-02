@@ -14,11 +14,11 @@ public class AddressBookMain {
     static AddressBookMain addressBookMain = new AddressBookMain();
     static Scanner scanner = new Scanner(System.in);
     static String addressBookName;
-
+    int entry=0;
     public void addAddressBook() throws IOException {
         Scanner input = new Scanner(System.in);
         System.out.println("Enter choice \n0.Creating new addressBook \n1.Adding contacts in existing register \n2.Exit ");
-        int entry = input.nextInt();
+        entry = input.nextInt();
         if (entry != 2) {
             switch (entry) {
                 case 0:
@@ -81,6 +81,13 @@ public class AddressBookMain {
                     break;
                 case 4:
                     addressBookMain.addAddressBook();
+                    break;
+                case 5:
+                    if (addressBook.addressbookList.isEmpty()) {
+                        System.out.println(" Address book is empty ");
+                        break;
+                    }
+                    addressBook.searchByCity();
                     count = 0;
                     break;
                 default:

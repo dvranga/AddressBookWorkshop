@@ -114,4 +114,13 @@ public class AddressBook {
         }
         sc.close();
     }
+
+    public void searchByCity() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter city name : ");
+        String city = sc.nextLine();
+        addressbookList.stream().filter(n -> n.getCity().equals(city))
+                .forEach(i -> System.out.println("Data Found:" + i.getFirstName()));
+    }
+
 }

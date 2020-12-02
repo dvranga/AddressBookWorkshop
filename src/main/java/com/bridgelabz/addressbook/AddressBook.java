@@ -40,7 +40,6 @@ public class AddressBook {
         for (int index = 0; index < addressbookList.size(); index++) {
             if (addressbookList.get(index).getFirstName().equals(firstNameToCheck)) {
                 System.out.println(addressbookList.get(index));
-                @SuppressWarnings("resource")
                 Scanner updateContact = new Scanner(System.in);
                 System.out.println(" Enter a choice 	1.first name 2.last name 3. city 4.state 5.zip 6.phone 7.email ");
                 int selection = scanner.nextInt();

@@ -12,7 +12,11 @@ public class AddressBookDetails {
     String phoneNo;
     String email;
 
-
+    @Override
+    public String toString() {
+        return "AddressBook [firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + ", city="
+                + city + ", state=" + state + ", zip=" + zip + ", phoneNo=" + phoneNo + ", email=" + email + "]";
+    }
 
     public AddressBookDetails(String firstName, String lastName, String address, String city, String state, String zip,
                               String phoneNo, String email) {
@@ -89,19 +93,5 @@ public class AddressBookDetails {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    @Override
-    public String toString() {
-        return "AddressBookDetails{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", address='" + address + '\'' +
-                ", city='" + city + '\'' +
-                ", state='" + state + '\'' +
-                ", zip='" + zip + '\'' +
-                ", phoneNo='" + phoneNo + '\'' +
-                ", email='" + email + '\'' +
-                '}';
     }
 }

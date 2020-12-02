@@ -40,9 +40,9 @@ public class AddressBook {
         for (int index = 0; index < addressbookList.size(); index++) {
             if (addressbookList.get(index).getFirstName().equals(firstNameToCheck)) {
                 System.out.println(addressbookList.get(index));
+                @SuppressWarnings("resource")
                 Scanner updateContact = new Scanner(System.in);
-                System.out
-                        .println(" Enter a choice 	1.first name 2.last name 3. city 4.state 5.zip 6.phone 7.email ");
+                System.out.println(" Enter a choice 	1.first name 2.last name 3. city 4.state 5.zip 6.phone 7.email ");
                 int selection = scanner.nextInt();
                 switch (selection) {
                     case 1:
@@ -88,5 +88,19 @@ public class AddressBook {
             }
         }
         System.out.println(addressbookList);
+    }
+
+    public void deleteContact() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter first name : ");
+        String firstName = sc.nextLine();
+        for (int i = 0; i < addressbookList.size(); i++) {
+            if (addressbookList.get(i).getFirstName().equalsIgnoreCase(firstName)) {
+                addressbookList.remove(i);
+            } else {
+                System.out.println("No data found");
+            }
+        }
+        sc.close();
     }
 }

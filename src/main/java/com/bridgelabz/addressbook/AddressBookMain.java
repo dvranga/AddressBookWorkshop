@@ -16,12 +16,11 @@ public class AddressBookMain {
         while (count==1) {
             System.out.println("Welcome to address book program ");
             System.out.println(
-                    "Enter choice \n1. AddContact  \n2.Edit ");
+                    "Enter choice \n1. AddContact  \n2.Edit \n3.Delete");
             int choice = sc.nextInt();
             switch (choice) {
                 case 1:
                     addressBook.addContact();
-                    count=0;
                     break;
                 case 2:
                     if (AddressBook.addressbookList.isEmpty()) {
@@ -29,7 +28,13 @@ public class AddressBookMain {
                         break;
                     }
                     addressBook.editContact();
-                    count=0;
+                    break;
+                case 3:
+                    if (AddressBook.addressbookList.isEmpty()) {
+                        System.out.println(" Address book is empty ");
+                        break;
+                    }
+                    addressBook.deleteContact();
                     break;
                 default:
                     System.out.println(" Enter a valid choice");

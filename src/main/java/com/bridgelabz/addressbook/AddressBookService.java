@@ -147,4 +147,11 @@ public class AddressBookService {
         String city = sc.nextLine();
         addressBookList.stream().filter(contact -> contact.getCity().equals(city)).forEach(i -> System.out.println(i));
     }
+
+    public void viewContactByCity() {
+        System.out.println("Enter City Name : ");
+        Scanner sc = new Scanner(System.in);
+        String city = sc.nextLine();
+        addressBookList.stream().filter(contact -> contact.getCity().equals(city)).forEach(addressBook -> System.out.println(addressBook));
+    }
 }

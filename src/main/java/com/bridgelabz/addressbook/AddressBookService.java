@@ -97,13 +97,9 @@ public class AddressBookService {
                     System.out.println(addressBookMap);
                     AddressBook addressBook = addNewContact();
                     List<AddressBook> addressBooks = addressBookMap.get(addressBookName);
-
-                    for (AddressBook details : addressBooks) {
-                        if (addressBook.getFirstName().equals(details.firstName)) {
-                            System.out.println("Contact " + details.firstName + " "+ " already exists");
-                            break;
-                        }
-                    }
+                    addressBooks.stream()
+                            .filter(details -> addressBook.getFirstName().equals(details.firstName))
+                            .findFirst().ifPresent(details -> System.out.println("Contact " + details.firstName + " " + " already exists"));
                     addressBooks.add(addressBook);
                     System.out.println(addressBookMap);
                 }

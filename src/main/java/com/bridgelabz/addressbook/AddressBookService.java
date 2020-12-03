@@ -154,4 +154,12 @@ public class AddressBookService {
         String city = sc.nextLine();
         addressBookList.stream().filter(contact -> contact.getCity().equals(city)).forEach(addressBook -> System.out.println(addressBook));
     }
+
+    public void countByCity() {
+        System.out.println("Enter City Name : ");
+        Scanner sc = new Scanner(System.in);
+        String city = sc.nextLine();
+        long count = addressBookList.stream().filter(addressBook -> addressBook.getCity().equals(city)).count();
+        System.out.println(count);
+    }
 }

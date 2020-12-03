@@ -1,6 +1,7 @@
 package com.bridgelabz.addressbook;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class AddressBookService {
@@ -161,5 +162,22 @@ public class AddressBookService {
         String city = sc.nextLine();
         long count = addressBookList.stream().filter(addressBook -> addressBook.getCity().equals(city)).count();
         System.out.println(count);
+    }
+
+    public void sortByName() {
+        addressBookList.stream()
+                .sorted(Comparator.comparing(AddressBook::getFirstName))
+                .collect(Collectors.toList())
+                .forEach(addressBook -> System.out.println(addressBook));
+    }
+
+    public void sortByCityOrState() {
+        addressBookList.stream().sorted(Comparator.comparing(AddressBook::getState)).collect(Collectors.toList())
+                .forEach(addressBook -> System.out.println(addressBook));
+    }
+
+    public void sortByZip() {
+        addressBookList.stream().sorted(Comparator.comparing(AddressBook::getZip)).collect(Collectors.toList())
+                .forEach(addressBook -> System.out.println(addressBook));
     }
 }

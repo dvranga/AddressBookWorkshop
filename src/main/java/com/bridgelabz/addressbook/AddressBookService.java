@@ -96,8 +96,8 @@ public class AddressBookService {
                 if (containsKey) {
                     System.out.println(addressBookMap);
                     AddressBook addressBook = addNewContact();
-                    List<AddressBook> addressBooks = addressBookMap.get(addressBookName);
-                    addressBooks.add(addressBook);
+                     addressBookList = addressBookMap.get(addressBookName);
+                    addressBookList.add(addressBook);
                     System.out.println(addressBookMap);
                 }
                 else{
@@ -141,4 +141,10 @@ public class AddressBookService {
         return addressBook;
     }
 
+    public void searchContactByCity() {
+        System.out.println("Enter City Name : ");
+        Scanner sc = new Scanner(System.in);
+        String city = sc.nextLine();
+        addressBookList.stream().filter(contact -> contact.getCity().equals(city)).forEach(i -> System.out.println(i));
+    }
 }

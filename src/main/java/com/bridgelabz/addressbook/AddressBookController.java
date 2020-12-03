@@ -35,7 +35,13 @@ public class AddressBookController {
                         break;
                     }
                     addressBookService.deleteContact();
-                    execute=0;
+                    break;
+                case 4:
+                    if (AddressBookService.addressBookList.isEmpty()) {
+                        System.out.println(" Address book is empty ");
+                        break;
+                    }
+                    addressBookService.searchContactByCity();
                     break;
                 default:
                     System.out.println(" Enter a valid choice");

@@ -1,126 +1,124 @@
 package com.bridgelabz.addressbook;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+
+import java.util.Objects;
 
 public class AddressBook {
 
-    static Scanner sc = new Scanner(System.in);
-    static List<AddressBookDetails> addressbookList = new ArrayList<AddressBookDetails>();
-    AddressBookDetails addContact;
-    AddressBookDetails contact;
-    boolean canUpdate;
+    String firstName;
+    String lastName;
+    String address;
+    String city;
+    String state;
+    String zip;
+    String phoneNo;
+    String email;
 
-    public void addContact() {
-        System.out.println("Enter your firstName : ");
-        String firstName = sc.nextLine();
-        System.out.println("Enter your lastName : ");
-        String lastName = sc.nextLine();
-        System.out.println("Enter your address : ");
-        String address = sc.nextLine();
-        System.out.println("Enter your city : ");
-        String city = sc.nextLine();
-        System.out.println("Enter your state : ");
-        String state = sc.nextLine();
-        System.out.println("Enter your zipCode : ");
-        String zip = sc.nextLine();
-        System.out.println("Enter your phoneNo : ");
-        String phoneNo = sc.nextLine();
-        System.out.println("Enter your emailId : ");
-        String email = sc.nextLine();
-        if (addressbookList.size() > 0) {
-            for (AddressBookDetails details : addressbookList) {
-                contact = details;
-                if (firstName.equals(contact.firstName) && lastName.equals(contact.lastName)) {
-                    System.out.println("Contact " + contact.firstName + " " + contact.lastName + " already exists");
-                    canUpdate = true;
-                    break;
-                }
-            }
-        }
-        if (!canUpdate) {
-            contact = new AddressBookDetails(firstName, lastName, address, city, state, zip, phoneNo, email);
-            addressbookList.add(contact);
-        }
+    public AddressBook() {
+
     }
 
-    public void editContact() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println(" Enter the first name ");
-        String firstNameToCheck = scanner.nextLine();
-        for (int index = 0; index < addressbookList.size(); index++) {
-            if (addressbookList.get(index).getFirstName().equals(firstNameToCheck)) {
-                System.out.println(addressbookList.get(index));
-                Scanner updateContact = new Scanner(System.in);
-                System.out.println(" Enter a choice 	1.first name 2.last name 3. city 4.state 5.zip 6.phone 7.email ");
-                int selection = scanner.nextInt();
-                switch (selection) {
-                    case 1:
-                        System.out.println(" Enter first name ");
-                        String first_Name = updateContact.nextLine();
-                        addressbookList.get(index).setFirstName(first_Name);
-                        System.out.println(addressbookList.get(index).getFirstName());
-                        break;
-                    case 2:
-                        System.out.println(" Enter last name ");
-                        String second_Name = updateContact.nextLine();
-                        addressbookList.get(index).setLastName(second_Name);
-                        break;
-                    case 3:
-                        System.out.println(" Enter city name ");
-                        String input_City = updateContact.nextLine();
-                        addressbookList.get(index).setCity(input_City);
-                        break;
-                    case 4:
-                        System.out.println(" Enter State ");
-                        String input_State = updateContact.nextLine();
-                        addressbookList.get(index).setCity(input_State);
-                        break;
-                    case 5:
-                        System.out.println(" Enter pincode ");
-                        String input_Zip = updateContact.nextLine();
-                        addressbookList.get(index).setCity(input_Zip);
-                        break;
-                    case 6:
-                        System.out.println(" Enter Mobile number ");
-                        String input_Phone = updateContact.nextLine();
-                        addressbookList.get(index).setZip(input_Phone);
-                        break;
-                    case 7:
-                        System.out.println(" Enter Email id ");
-                        String input_Email = updateContact.nextLine();
-                        addressbookList.get(index).setCity(input_Email);
-                        break;
-                    default:
-                        System.out.println(" Enter valid input ");
-                        break;
-                }
-            }
-        }
-        System.out.println(addressbookList);
+    @Override
+    public String toString() {
+        return "AddressBookService [firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + ", city="
+                + city + ", state=" + state + ", zip=" + zip + ", phoneNo=" + phoneNo + ", email=" + email + "]";
     }
 
-    public void deleteContact() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter first name : ");
-        String firstName = sc.nextLine();
-        for (int i = 0; i < addressbookList.size(); i++) {
-            if (addressbookList.get(i).getFirstName().equalsIgnoreCase(firstName)) {
-                addressbookList.remove(i);
-            } else {
-                System.out.println("No data found");
-            }
-        }
-        sc.close();
+    public AddressBook(String firstName, String lastName, String address, String city, String state, String zip,
+                       String phoneNo, String email) {
+        super();
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.city = city;
+        this.state = state;
+        this.zip = zip;
+        this.phoneNo = phoneNo;
+        this.email = email;
     }
 
-    public void searchByCity() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter city name : ");
-        String city = sc.nextLine();
-        addressbookList.stream().filter(n -> n.getCity().equals(city))
-                .forEach(i -> System.out.println("Data Found:" + i.getFirstName()));
+    public String getFirstName() {
+        return firstName;
     }
 
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getZip() {
+        return zip;
+    }
+
+    public void setZip(String zip) {
+        this.zip = zip;
+    }
+
+    public String getPhoneNo() {
+        return phoneNo;
+    }
+
+    public void setPhoneNo(String phoneNo) {
+        this.phoneNo = phoneNo;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AddressBook)) return false;
+        AddressBook that = (AddressBook) o;
+        return Objects.equals(getFirstName(), that.getFirstName()) &&
+                Objects.equals(getLastName(), that.getLastName()) &&
+                Objects.equals(getAddress(), that.getAddress()) &&
+                Objects.equals(getCity(), that.getCity()) &&
+                Objects.equals(getState(), that.getState()) &&
+                Objects.equals(getZip(), that.getZip()) &&
+                Objects.equals(getPhoneNo(), that.getPhoneNo()) &&
+                Objects.equals(getEmail(), that.getEmail());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getFirstName(), getLastName(), getAddress(), getCity(), getState(), getZip(), getPhoneNo(), getEmail());
+    }
 }

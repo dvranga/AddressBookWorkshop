@@ -244,4 +244,8 @@ public class AddressBookDBService {
             }
         }
     }
+
+    public int updateContactNumber(String name, String updateNumber) {
+        return 0;
+    }
 }

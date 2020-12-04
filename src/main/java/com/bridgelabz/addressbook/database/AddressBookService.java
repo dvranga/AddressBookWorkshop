@@ -34,7 +34,7 @@ public class AddressBookService {
         if (addressBookData!=null) addressBookData.phoneNumber=phoneNumber;
     }
 
-    private AddressBookData getAddressBookData(String name) {
+    public AddressBookData getAddressBookData(String name) {
         return this.addressBookList.stream()
                 .filter(addressBookData -> addressBookData.firstName.equals(name))
                 .findFirst()
@@ -104,7 +104,14 @@ public class AddressBookService {
             System.out.println(add);
         }
     }
-
+    public void updateContactNumber(String name, String updateNumber, IOService ioService) {
+        if (ioService.equals(IOService.DB_IO)) {
+            int result = addressBookDBService.updateContactNumber(name, updateNumber);
+            if (result == 0) return;
+        }
+        AddressBookData addressBookData=this.getAddressBookData(name);
+        if (addressBookData !=null) addressBookData.phoneNumber=updateNumber;
+    }
 
 }
 

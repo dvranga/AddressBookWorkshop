@@ -159,6 +159,23 @@ public class AddressBookTest {
         Assert.assertEquals(7,entries);
     }
 
+    @Test
+    public void givenNewMobileNumber_ShouldUpdateTheAddressBook_ShouldSyncWithDatabase() {
+        AddressBookData[] addressList = getAddressList();
+        AddressBookService addressBookService;
+        addressBookService=new AddressBookService(Arrays.asList(addressList));
+
+        addressBookService.updateContactNumber("mahesh","6309609657",REST_IO);
+        AddressBookData addressBookData = addressBookService.getAddressBookData("mahesh");
+        String toJson = new Gson().toJson(addressBookData);
+        RequestSpecification requestSpecification = RestAssured.given();
+        requestSpecification.header("Content-Type","application/json");
+        requestSpecification.body(toJson);
+        Response response = requestSpecification.put("/addressbook/" + addressBookData.phoneNumber);
+        int statusCode = response.getStatusCode();
+        Assert.assertEquals(200,statusCode);
+    }
+
 }
 
 

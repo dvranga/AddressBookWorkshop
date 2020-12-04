@@ -113,6 +113,12 @@ public class AddressBookService {
         if (addressBookData !=null) addressBookData.phoneNumber=updateNumber;
     }
 
+    public void deleteAddressBook(String firstName, IOService ioService) {
+        if (ioService.equals(IOService.REST_IO)) {
+            AddressBookData addressBookData = this.getAddressBookData(firstName);
+            addressBookList.remove(addressBookData);
+        }
+    }
 }
 
 

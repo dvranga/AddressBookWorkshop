@@ -176,6 +176,24 @@ public class AddressBookTest {
         Assert.assertEquals(200,statusCode);
     }
 
+    @Test
+    public void givenContact_ShouldDeleteInJsonServer_ShouldSyncWithJsonServer() {
+        AddressBookData[] addressList = getAddressList();
+        AddressBookService addressBookService;
+        addressBookService=new AddressBookService(Arrays.asList(addressList));
+
+        AddressBookData addressBookData = addressBookService.getAddressBookData("mahesh");
+        RequestSpecification requestSpecification = RestAssured.given();
+        requestSpecification.header("Content-Type","application/json");
+        Response delete = requestSpecification.delete("/addressbook/" + addressBookData.firstName);
+        int statusCode = delete.getStatusCode();
+        Assert.assertEquals(statusCode,200);
+
+        addressBookService.deleteAddressBook(addressBookData.firstName,REST_IO);
+        long entries = addressBookService.countEntries(REST_IO);
+        Assert.assertEquals(6,entries);
+    }
+
 }
 
 

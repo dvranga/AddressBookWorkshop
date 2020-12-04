@@ -1,5 +1,9 @@
 package com.bridgelabz.addressbook;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -86,7 +90,7 @@ public class AddressBookService {
 
         System.out.println("Enter the addressBook name");
         String addressBookName = scanner.nextLine();
-        System.out.println("Enter 1 to add new addressBook 2 to existing addressBook 3 to Exit");
+        System.out.println("Enter 1 to add new addressBook 2 to existing addressBook 3.add to file to Exit");
         int nextInt = scanner.nextInt();
         switch (nextInt){
             case 1:
@@ -104,6 +108,8 @@ public class AddressBookService {
                 else{
                     System.out.println("No book is present");
                 }
+                break;
+            case 3:
                 break;
             default:
                 break;
@@ -179,5 +185,38 @@ public class AddressBookService {
     public void sortByZip() {
         addressBookList.stream().sorted(Comparator.comparing(AddressBook::getZip)).collect(Collectors.toList())
                 .forEach(addressBook -> System.out.println(addressBook));
+    }
+
+    public void addDataToFile(String firstName, String lastName, String address, String city, String state,
+                              String phoneNumber, String zip, String email) {
+        System.out.println("Enter name for txt written file : ");
+        String fileName = scanner.nextLine();
+        File file = new File("C:\\Users\\Heros\\Desktop\\fileIo" + fileName + ".txt");
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            FileWriter fw = new FileWriter(file.getAbsoluteFile(), true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write("Contact:" + "\n1.First name: " + firstName + "\n2.Last name: " + lastName + "\n3.Address: "
+                    + address + "\n4.City: " + city + "\n5.State: " + state + "\n6.Phone number: " + phoneNumber
+                    + "\n7.Zip: " + zip + "\n8.email: " + email + "\n");
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addContactToFile() {
+        System.out.println("Enter the address book name");
+        AddressBook addressBook = addNewContact();
+        addDataToFile(addressBook.firstName,addressBook.lastName,addressBook.address,addressBook.city,addressBook.state,
+                addressBook.phoneNo,addressBook.zip,addressBook.email);
+
+
     }
 }

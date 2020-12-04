@@ -1,7 +1,5 @@
 package com.bridgelabz.addressbook;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 public class AddressBookController {
@@ -17,7 +15,7 @@ public class AddressBookController {
         while (execute==1) {
             System.out.println(
                     "Enter choice 1. add addressBook or contact  2.Edit 3.Delete 4.search 5.view by city" +
-                            " 6. count by city 7.sort by name 8.sort by city 9.sort by zip");
+                            " 6. count by city 7.sort by name 8.sort by city 9.sort by zip 10.to write into file");
             int choice = scanner.nextInt();
             switch (choice) {
                 case 1:
@@ -78,6 +76,10 @@ public class AddressBookController {
                         break;
                     }
                     addressBookService.sortByZip();
+                    break;
+                case 10:
+                    addressBookService.addContactToFile();
+                    System.out.println("Successfully Added to text file");
                     break;
                 default:
                     System.out.println(" Enter a valid choice");

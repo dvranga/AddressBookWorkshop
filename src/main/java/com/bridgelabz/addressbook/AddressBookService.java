@@ -1,9 +1,9 @@
 package com.bridgelabz.addressbook;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -216,7 +216,66 @@ public class AddressBookService {
         AddressBook addressBook = addNewContact();
         addDataToFile(addressBook.firstName,addressBook.lastName,addressBook.address,addressBook.city,addressBook.state,
                 addressBook.phoneNo,addressBook.zip,addressBook.email);
+    }
 
+    public void readDataFromFile() {
+        System.out.println("Enter address book name : ");
+        String fileName = scanner.nextLine();
+        Path filePath = Paths.get("C:\\Users\\Heros\\Desktop\\fileIo" + fileName + ".txt");
+        try {
+            Files.lines(filePath).map(line -> line.trim()).forEach(line -> System.out.println(line));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addContactsToCSVFile() throws IOException {
+        System.out.println("Enter address book name : ");
+        String fileName = scanner.nextLine();
+        File file = new File("C:\\Users\\Heros\\Desktop\\fileIo" + fileName + ".csv");
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        FileWriter csvWriter = new FileWriter("addressbook.csv");
+        csvWriter.append("firstName");
+        csvWriter.append(",");
+        csvWriter.append("lastName");
+        csvWriter.append(",");
+        csvWriter.append("city");
+        csvWriter.append(",");
+        csvWriter.append("state");
+        csvWriter.append(",");
+        csvWriter.append("email");
+        csvWriter.append(",");
+        csvWriter.append("phoneNumber");
+        csvWriter.append(",");
+        csvWriter.append("zip");
+        csvWriter.append(",");
+        csvWriter.append("address");
+        csvWriter.append("\n");
+
+        for (AddressBook rowData : addressBookList) {
+            csvWriter.append(String.join(",", (CharSequence) rowData));
+            csvWriter.append("\n");
+        }
+
+        csvWriter.flush();
+        csvWriter.close();
+
+        BufferedReader csvReader = new BufferedReader(new FileReader(file));
+        String row=null;
+        while ((row = csvReader.readLine()) != null) {
+            String[] data = row.split(",");
+            System.out.println(data);
+        }
+        csvReader.close();
+    }
+
+    public void ReadDataFromCSVFile() {
 
     }
 }

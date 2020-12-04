@@ -80,6 +80,11 @@ public class AddressBookController {
                 case 10:
                     addressBookService.addContactToFile();
                     System.out.println("Successfully Added to text file");
+                    addressBookService.readDataFromFile();
+                    System.out.println("Successfully read from file");
+                    break;
+                case 11:
+                    addressBookService.addContactsToCSVFile();
                     break;
                 default:
                     System.out.println(" Enter a valid choice");

@@ -3,7 +3,11 @@ package com.bridgelabz.addressbook;
 import com.bridgelabz.addressbook.database.AddressBookData;
 import com.bridgelabz.addressbook.database.AddressBookException;
 import com.bridgelabz.addressbook.database.AddressBookService;
+import com.google.gson.Gson;
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.time.Duration;
@@ -14,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.bridgelabz.addressbook.database.AddressBookService.IOService.DB_IO;
+import static com.bridgelabz.addressbook.database.AddressBookService.IOService.REST_IO;
 
 
 public class AddressBookTest {
@@ -81,4 +86,35 @@ public class AddressBookTest {
         Assert.assertTrue(result);
     }
 
+    @Before
+    public void setUp() {
+        RestAssured.baseURI = "http://localhost";
+        RestAssured.port = 3000;
+    }
+    private AddressBookData[] getAddressList() {
+        Response response = RestAssured.get("/addressbook");
+        System.out.println("AddressBook Entries in the json server:\n" + response.asString());
+        AddressBookData[] addressBookData = new Gson().fromJson(response.asString(), AddressBookData[].class);
+        return addressBookData;
+    }
+
+    @Test
+    public void givenAddressBookDataInJson_WhenRetrievedShouldMatchTheCount() {
+        AddressBookData[] addressBookData= getAddressList();
+        AddressBookService addressBookService=new AddressBookService(Arrays.asList(addressBookData));
+        long entries = addressBookService.countEntries(REST_IO);
+        Assert.assertEquals(2,entries);
+    }
+
+
 }
+
+
+
+
+
+
+
+
+
+

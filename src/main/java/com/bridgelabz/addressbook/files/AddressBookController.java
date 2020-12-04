@@ -1,4 +1,4 @@
-package com.bridgelabz.addressbook;
+package com.bridgelabz.addressbook.files;
 import java.io.IOException;
 import java.util.Scanner;
 

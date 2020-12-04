@@ -1,5 +1,9 @@
 package com.bridgelabz.addressbook;
 
+import com.google.gson.Gson;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -229,53 +233,81 @@ public class AddressBookService {
         }
     }
 
-    public void addContactsToCSVFile() throws IOException {
+
+    public void addDataToCSVFile() throws IOException {
+        System.out.println("Enter name of the file : ");
+        String fileName = scanner.nextLine();
+        Path filePath = Paths.get("C:\\Users\\Heros\\Desktop\\fileIo" + fileName + ".csv");
+
+        if (Files.notExists(filePath))
+            Files.createFile(filePath);
+        File file = new File(String.valueOf(filePath));
+
+        try {
+            FileWriter outputfile = new FileWriter(file, true);
+            CSVWriter writer = new CSVWriter(outputfile);
+            List<String[]> data = new ArrayList<>();
+            for (AddressBook detail : addressBookList) {
+                data.add(new String[] { "Contact:" + "\n1.First name: " + detail.firstName + "\n2.Last name: "
+                        + detail.lastName + "\n3.Address: " + detail.address + "\n4.City: " + detail.city
+                        + "\n5.State: " + detail.state + "\n6.Phone number: " + detail.phoneNo + "\n7.Zip: "
+                        + detail.zip + "\n8.email: " + detail.email + "\n" });
+            }
+            writer.writeAll(data);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void readDataFromCSVFile() {
         System.out.println("Enter address book name : ");
         String fileName = scanner.nextLine();
-        File file = new File("C:\\Users\\Heros\\Desktop\\fileIo" + fileName + ".csv");
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
+        CSVReader reader = null;
+        try {
+            reader = new CSVReader(new FileReader("C:\\Users\\Heros\\Desktop\\fileIo" + fileName + ".csv"));
+            String[] nextLine;
+            while ((nextLine = reader.readNext()) != null) {
+                for (String token : nextLine) {
+                    System.out.println(token);
+                }
+                System.out.print("\n");
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        FileWriter csvWriter = new FileWriter("addressbook.csv");
-        csvWriter.append("firstName");
-        csvWriter.append(",");
-        csvWriter.append("lastName");
-        csvWriter.append(",");
-        csvWriter.append("city");
-        csvWriter.append(",");
-        csvWriter.append("state");
-        csvWriter.append(",");
-        csvWriter.append("email");
-        csvWriter.append(",");
-        csvWriter.append("phoneNumber");
-        csvWriter.append(",");
-        csvWriter.append("zip");
-        csvWriter.append(",");
-        csvWriter.append("address");
-        csvWriter.append("\n");
-
-        for (AddressBook rowData : addressBookList) {
-            csvWriter.append(String.join(",", (CharSequence) rowData));
-            csvWriter.append("\n");
-        }
-
-        csvWriter.flush();
-        csvWriter.close();
-
-        BufferedReader csvReader = new BufferedReader(new FileReader(file));
-        String row=null;
-        while ((row = csvReader.readLine()) != null) {
-            String[] data = row.split(",");
-            System.out.println(data);
-        }
-        csvReader.close();
     }
 
-    public void ReadDataFromCSVFile() {
 
+    public void addDataToJSONFile() throws IOException {
+        System.out.println("Enter name for json written file : ");
+        String fileName = scanner.nextLine();
+        Path filePath = Paths.get("C:\\Users\\Heros\\Desktop\\fileIo" + fileName + ".json");
+        Gson gson = new Gson();
+        String json = gson.toJson(addressBookList);
+        FileWriter writer = new FileWriter(String.valueOf(filePath));
+        writer.write(json);
+        writer.close();
     }
+
+    public void readDataFromJsonFile() throws FileNotFoundException {
+        System.out.println("Enter address book name : ");
+        String fileName = scanner.nextLine();
+        Path filePath = Paths.get("C:\\Users\\Heros\\Desktop\\fileIo" + fileName + ".json");
+        Gson gson = new Gson();
+        BufferedReader br = new BufferedReader(new FileReader(String.valueOf(filePath)));
+        AddressBook[] data = gson.fromJson(br, AddressBook[].class);
+        List<AddressBook> lst = Arrays.asList(data);
+        for (AddressBook details : lst) {
+            System.out.println("Firstname : " + details.firstName);
+            System.out.println("Lastname : " + details.lastName);
+            System.out.println("Address : " + details.address);
+            System.out.println("City : " + details.city);
+            System.out.println("State : " + details.state);
+            System.out.println("Zip : " + details.zip);
+            System.out.println("Phone no : " + details.phoneNo);
+            System.out.println("Email : " + details.email);
+        }
+    }
+
 }

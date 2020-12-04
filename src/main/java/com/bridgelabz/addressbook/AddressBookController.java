@@ -84,7 +84,12 @@ public class AddressBookController {
                     System.out.println("Successfully read from file");
                     break;
                 case 11:
-                    addressBookService.addContactsToCSVFile();
+                    addressBookService.addDataToCSVFile();
+                    addressBookService.readDataFromCSVFile();
+                    break;
+                case 12:
+                    addressBookService.readDataFromJsonFile();
+                    addressBookService.addDataToJSONFile();
                     break;
                 default:
                     System.out.println(" Enter a valid choice");

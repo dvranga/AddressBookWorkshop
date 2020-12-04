@@ -6,6 +6,7 @@ import com.bridgelabz.addressbook.database.AddressBookService;
 import com.google.gson.Gson;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -98,6 +99,15 @@ public class AddressBookTest {
         return addressBookData;
     }
 
+    private Response addContactToJsonServer(AddressBookData addressBookData) {
+        String json = new Gson().toJson(addressBookData);
+        RequestSpecification request = RestAssured.given();
+        request.header("Content-Type", "application/json");
+        request.body(json);
+        Response post = request.post("/addressbook");
+        return post;
+    }
+
     @Test
     public void givenAddressBookDataInJson_WhenRetrievedShouldMatchTheCount() {
         AddressBookData[] addressBookData= getAddressList();
@@ -106,6 +116,48 @@ public class AddressBookTest {
         Assert.assertEquals(2,entries);
     }
 
+    @Test
+    public void givenNewContact_WhenAddedIntoTheJsonServer_ShouldMatchTheCountAndSyncWithDB() {
+        AddressBookData[] addressList = getAddressList();
+        AddressBookService addressBookService;
+        addressBookService= new AddressBookService(Arrays.asList(addressList));
+        AddressBookData  addressBookData = new AddressBookData(1,1, "mallesh", "vatti", "Gorantla",
+                "anatapur", "AP", "515231", "7483247013", "mahesh@gmail.com",LocalDate.now());
+        Response response = addContactToJsonServer(addressBookData);
+        int statusCode = response.getStatusCode();
+        Assert.assertEquals(201, statusCode);
+
+        System.out.println(AddressBookData.class.toString()+" **adbc");
+        addressBookData = new Gson().fromJson( response.asString(), AddressBookData.class);
+        System.out.println(addressBookData.toString());
+        addressBookService.addAddressBook(addressBookData, REST_IO);
+        long entries = addressBookService.countEntries(REST_IO);
+        Assert.assertEquals(4,entries);
+    }
+
+    @Test
+    public void givenMultipleNewContact_WhenAddedIntoTheJsonServer_ShouldMatchTheCountAndSyncWithDB() {
+        AddressBookData[] addressList = getAddressList();
+        AddressBookService addressBookService;
+        addressBookService= new AddressBookService(Arrays.asList(addressList));
+        AddressBookData[] arrayOfContacts = {
+                new AddressBookData(1,1, "mahesh", "vatti", "Gorantla",
+                "anatapur", "AP", "515231", "7483247013", "mahesh@gmail.com",LocalDate.now()),
+                new AddressBookData(1,1, "mahesh", "vatti", "Gorantla",
+                "anatapur", "AP", "515231", "7483247013", "mahesh@gmail.com",LocalDate.now()),
+                new AddressBookData(1,1, "mahesh", "vatti", "Gorantla",
+                        "anatapur", "AP", "515231", "7483247013", "mahesh@gmail.com",LocalDate.now())
+        };
+        for (AddressBookData addressBookData : arrayOfContacts) {
+            Response response = addContactToJsonServer(addressBookData);
+            int statusCode = response.getStatusCode();
+            Assert.assertEquals(201,statusCode);
+            addressBookData = new Gson().fromJson(response.asString(), AddressBookData.class);
+            addressBookService.addAddressBook(addressBookData,REST_IO);
+        }
+        long entries = addressBookService.countEntries(REST_IO);
+        Assert.assertEquals(7,entries);
+    }
 
 }
 

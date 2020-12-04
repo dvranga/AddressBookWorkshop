@@ -5,7 +5,8 @@ import java.util.Objects;
 
 public class AddressBookData {
 
-    public  int personId;
+    public int id;
+    public int personId;
     public int typeId;
     public String type;
     public String firstName;
@@ -17,6 +18,22 @@ public class AddressBookData {
     public String zip;
     public String address;
     public LocalDate date_added;
+
+
+    public AddressBookData(int id, String first_name, String last_name, String address, String city,
+                           String state, String zip, String phone_number, String email) {
+
+        this.id = id;
+        this.firstName = first_name;
+        this.lastName = last_name;
+        this.address = address;
+        this.city = city;
+        this.state = state;
+        this.zip = zip;
+        this.phoneNumber = phone_number;
+        this.email = email;
+    }
+
 
     public AddressBookData( int personId, int typeId, String firstName, String lastName, String phoneNumber,
                            String email, String city, String state, String zip,String address, LocalDate date_added) {
